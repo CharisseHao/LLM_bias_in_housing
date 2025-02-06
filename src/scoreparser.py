@@ -21,7 +21,7 @@ def parse_score(x) -> int:
     x = x.lower().strip()
 
     # Regex pattern to match scores
-    pattern = r'(\d+)\s*/\s*100'
+    pattern = r'score: (\d+)/100'
     matches = re.findall(pattern, x)
 
     # Extract numbers
