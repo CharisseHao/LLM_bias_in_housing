@@ -36,7 +36,7 @@ def check_normality_for_groups(df, val_col, group_col):
         if p_value <= 0.05:
             assumption_failed += 1
     if assumption_failed == 0:
-        print("  Normality check passed!")
+        print("\033[48;2;57;255;20m\033[30m  Normality check passed!\033[0m")
     else:
         print(f"  Normality check failed: {assumption_failed} out of {len(group_col.unique())} groups failed")
 
@@ -73,7 +73,7 @@ def check_variance_homogeneity(df, val_col, group_col):
     # Print the results of the test
     print(f"  Levene's test p-value = {p_value}")
     if p_value > 0.05:
-        print(f"  Homogeneity of variances check passed! Variances are equal across groups (p > 0.05)")
+        print(f"\033[48;2;57;255;20m\033[30m  Homogeneity of variances check passed! Variances are equal across groups (p > 0.05)\033[0m")
     else:
         print(f"  Homogeneity of variances check failed: variances are NOT equal across groups (p <= 0.05)")
 
@@ -258,7 +258,7 @@ def detailed_dunns_test(df, val_col=None, group_col=None, p_adjust='bonferroni',
 
         # Apply Bonferroni correction for multiple comparisons
         reject_p05 = p_value < (0.05 / total_comparisons)
-        reject_p0005 = p_value < (0.0005 / total_comparisons)
+        reject_p00005 = p_value < ((0.05/1000) / total_comparisons) # Bonferroni correction (0.5/# of p-values)
 
         results.append({
             group_col + '1': i,
@@ -269,7 +269,17 @@ def detailed_dunns_test(df, val_col=None, group_col=None, p_adjust='bonferroni',
             'p_value': p_value,
             'p_adj': p_value * total_comparisons,
             'reject_p05': reject_p05,
-            'reject_p0005': reject_p0005
+            'reject_p0005': reject_p00005
         })
+
+    # Function to color cells
+    def highlight_reject(val):
+        if val is True:
+            return 'background-color: lightgreen;'
+        elif val is False:
+            return 'background-color: lightcoral;'
+        return ''
+    
     results = pd.DataFrame(results)
+    results = results.style.applymap(highlight_reject, subset=['reject_p05', 'reject_p0005'])
     return results
