@@ -5,15 +5,71 @@ from scipy.stats import kruskal, norm
 import scikit_posthocs as sp
 from itertools import combinations
 
+def assumptions_and_tests(df, val_col, models, variables):
+    """
+    Checks assumptions for parametric tests and performs Kruskal-Wallis Test for 
+    each model and variable if assumptions aren't met.
+
+    This function iterates over multiple models and variables in the dataframe, 
+    performing normality checks and variance homogeneity tests. If either 
+    assumption is violated, it performs a Kruskal-Wallis test to assess
+    differences between groups. The function prints the results of each test, 
+    including test statistics, p-values, and interpretations. If significant 
+    differences are found through the Kruskal-Wallis test, it displays 
+    additional results from a Dunn's test.
+    
+    The following steps are executed for each model and variable:
+    1. Normality and variance homogeneity checks are performed.
+    2. If either assumption fails, a Kruskal-Wallis test is performed.
+    3. Results from the Kruskal-Wallis test, including the test statistic, 
+       p-value, and interpretation, are printed.
+    4. If the Kruskal-Wallis test indicates significant differences, Dunn's test 
+       results are displayed for further pairwise comparisons.
+    
+    Parameters:
+    df (DataFrame): The input dataframe containing the data.
+    val_col (str): The name of the column containing the numeric values to be 
+        tested.
+    models (list): A list of models to iterate through.
+    variables (list): A list of variable names to test across each model.
+     
+    Returns:
+    None: The function prints the results of normality and variance checks,
+        Kruskal-Wallis tests, and Dunn's tests (if applicable).
+
+    """
+    for m in models:
+        print(f"\033[1mmodel: {m}\033[0m")
+        model_df = df[df['model'].str.contains(m)]
+
+        for v in variables:
+            print(f"\033[1mvariable: {v}\033[0m")
+            normality_check = check_normality_for_groups(model_df, val_col, model_df[v])
+            variance_check = check_variance_homogeneity(model_df, val_col, model_df[v])
+            if (not normality_check) or (not variance_check):
+                kw_test = kruskal_wallis_test(model_df, val_col, v)
+                print(f"Kruskal-Wallis Test:")
+                print(f"  test statistic: {kw_test['test_statistic']}; p-value: {kw_test['p_value']}")
+                i_color = "  \033[38;2;30;200;10m" if (kw_test['Interpretation'] != 'Significant difference between groups') else "  \033[38;5;160m"
+                print(i_color + kw_test['Interpretation'] + "\033[0m")
+                if kw_test['Interpretation'] == 'Significant difference between groups':
+                    display(detailed_dunns_test(model_df, val_col, v))
+            print('\n')
+        print('---\n')
+
 def check_normality_for_groups(df, val_col, group_col):
     """
     Check the normality of data in each group using the Shapiro-Wilk test.
     
     This function performs the Shapiro-Wilk test for normality on the 
     values in the `val_col` within each group defined by `group_col`. 
-    It prints the results, including whether the normality assumption holds or 
-    fails for each group. A failed normality test is indicated when the p-value 
-    is less than or equal to 0.05.
+    It prints the results for each group and returns a boolean indicating
+    whether the normality assumption holds for each group. 
+    
+    A failed normality test is indicated when the p-value is less than 
+    or equal to 0.05.If all groups pass, the function prints "Normality 
+    check passed!" and returns `True`. If one or more groups fail, it 
+    prints the number of failed groups and returns `False`.
     
     Parameters:
     df (DataFrame): The input dataframe containing the data.
@@ -22,9 +78,8 @@ def check_normality_for_groups(df, val_col, group_col):
     group_col (str): The name of the column containing the group labels.
     
     Returns:
-    None: The function prints out the results of the normality tests. If no 
-        groups fail the test, it will print "Normality check passed!". If one or
-        more groups fail the test, it will indicate how many groups failed.
+    bool: `True` if normality holds for all groups, `False` if at least one 
+        group fails the test.
     """
     print("Checking Normality (Shapiro-Wilk Test) for each age group:")
     assumption_failed = 0
@@ -36,9 +91,10 @@ def check_normality_for_groups(df, val_col, group_col):
         if p_value <= 0.05:
             assumption_failed += 1
     if assumption_failed == 0:
-        print("\033[48;2;57;255;20m\033[30m  Normality check passed!\033[0m")
+        print("  \033[38;2;30;200;10mNormality check passed!\033[0m")
     else:
-        print(f"  Normality check failed: {assumption_failed} out of {len(group_col.unique())} groups failed")
+        print(f"  \033[38;5;160mNormality check failed\033[0m: {assumption_failed} out of {len(group_col.unique())} groups failed")
+    return not bool(assumption_failed)
 
 
 def check_variance_homogeneity(df, val_col, group_col):
@@ -48,8 +104,13 @@ def check_variance_homogeneity(df, val_col, group_col):
 
     This function assesses whether the assumption of equal variances 
     (homogeneity of variance) is met for different groups in the dataset. The 
-    test compares the variances of the groups using the means or medians of the 
-    groups' values.
+    test compares the variances of the groups using their means or medians. It
+    prints the test result and whether the variances are equal across groups.
+    Additionally, it returns a boolean indicating whether the assumption of 
+    equal variance holds. 
+    
+    A p-value less than or equal to 0.05 indicates a violation of this assumption,
+    meaning the variances are significantly different across groups. 
 
     Parameters:
     df (DataFrame): The input dataframe containing the data.
@@ -58,8 +119,7 @@ def check_variance_homogeneity(df, val_col, group_col):
     group_col (str): The name of the column containing the group labels.
 
     Returns:
-    None: The function prints the results of Levene's Test, including the
-        p-value, and indicates whether the variances are equal across groups.
+    bool: `True` if the assumption of equal variances holds, `False` otherwise.
     """
     print("Checking Homogeneity of Variance (Levene's Test) for age groups:")
     unique_groups = group_col.unique()
@@ -73,10 +133,10 @@ def check_variance_homogeneity(df, val_col, group_col):
     # Print the results of the test
     print(f"  Levene's test p-value = {p_value}")
     if p_value > 0.05:
-        print(f"\033[48;2;57;255;20m\033[30m  Homogeneity of variances check passed! Variances are equal across groups (p > 0.05)\033[0m")
+        print(f"  \033[38;2;30;200;10mHomogeneity of variances check passed!\033[0m Variances are equal across groups (p > 0.05)")
     else:
-        print(f"  Homogeneity of variances check failed: variances are NOT equal across groups (p <= 0.05)")
-
+        print(f"  \033[38;5;160mHomogeneity of variances check failed\033[0m: variances are NOT equal across groups (p <= 0.05)")
+    return p_value > 0.05
 
 def kruskal_wallis_test(df, val_col, group_col):
     """
@@ -168,17 +228,19 @@ def detailed_dunns_test(df, val_col=None, group_col=None, p_adjust='bonferroni',
         Default is 'bonferroni'.
     sort (bool, optional): If `True`, the data will be sorted by the group and value 
         columns. Default is `True`.
-    total_comparisons (int, optional): The total number of comparisons to adjust p-values 
-        using the Bonferroni correction. Default is 1.
+    total_comparisons (int, optional): The total number of comparisons to adjust 
+        p-values using the Bonferroni correction. Default is 1.
 
     Returns:
-    pd.DataFrame: A DataFrame containing the results for each pairwise comparison, including:
+    pd.DataFrame: A DataFrame containing the results for each pairwise comparison, 
+        including:
         - The two groups being compared.
         - The mean and median differences.
         - The Z-score for the difference.
         - The p-value for the comparison.
         - The Bonferroni-adjusted p-value.
-        - Flags indicating whether the comparison is significant at p < 0.05 and p < 0.0005 after correction.
+        - Flags indicating whether the comparison is significant at p < 0.05 and 
+            p < 0.0005 after correction.
     """
 
     def compare_dunn(i, j):
