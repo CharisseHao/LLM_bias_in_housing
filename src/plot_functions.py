@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 
-def single_var_catplot(df, col_name, title):
+def single_var_catplot(df, val_col, col_name, title):
     """
     Creates a boxenplot for a single categorical variable with a custom legend.
 
@@ -15,7 +15,9 @@ def single_var_catplot(df, col_name, title):
     Parameters: 
     df (DataFrame): A DataFrame containing the data to plot. The
         DataFrame must have a column corresponding to the `col_name` and a 
-        `query_response` column for the y-values.
+        `val_col` column for the y-values.
+    val_col (str): The name of the column containing the numeric values to be 
+        tested.
     col_name (str): The name of the categorical column in `df` to be plotted on 
         the x-axis. The function will generate a boxenplot for the values in 
         this column.
@@ -25,13 +27,13 @@ def single_var_catplot(df, col_name, title):
     None: This function does not return any value but displays the plot directly.
     """
     var_order = sorted(df[col_name].unique())
-    var_stats = df.groupby(col_name)['query_response'].agg(['mean', 'median'])
+    var_stats = df.groupby(col_name)[val_col].agg(['mean', 'median'])
 
     # Create the boxenplot with specified order
     g = sns.catplot(
         data=df,
         x=col_name,
-        y='query_response',
+        y=val_col,
         kind="boxen",
         order=var_order,
         height=4,
@@ -53,6 +55,8 @@ def single_var_catplot(df, col_name, title):
             zorder=10,
             label=f"Mean ({var})"
         )
+
+    g.set_xticklabels(rotation=45)
     
     # Add a second legend for the mean and median
     custom_legend = [
@@ -66,19 +70,21 @@ def single_var_catplot(df, col_name, title):
     plt.show()
 
 
-def multi_var_catplot(df, col1, col2, title):
+def multi_var_catplot(df, val_col, col1, col2, title):
     """
     Creates a boxenplot for two categorical variables with mean and median 
     markers and a custom legend.
 
     This function generates a seaborn `catplot` (specifically a boxenplot) for 
     the relationship between two categorical variables and a numeric response 
-    variable (`query_response`). The mean values are overlaid as green dots, 
+    variable. The mean values are overlaid as green dots, 
     while a custom legend highlights both the median and mean markers.
 
     Parameters:
     df (DataFrame): A DataFrame containing the data to plot. The 
-        DataFrame must include columns for `col1`, `col2`, and `query_response`.
+        DataFrame must include columns for `col1`, `col2`, and `val_col`.
+    val_col (str): The name of the column containing the numeric values to be 
+        tested.
     col1 (str): The name of the primary categorical column to plot on the x-axis.
     col2 (str): The name of the secondary categorical column to use for 
         grouping (hue).
@@ -95,7 +101,7 @@ def multi_var_catplot(df, col1, col2, title):
     g = sns.catplot(
         data=df,
         x=col1,
-        y='query_response',
+        y=val_col,
         hue=col2,
         kind="boxen",
         order=col1_order,
@@ -114,8 +120,8 @@ def multi_var_catplot(df, col1, col2, title):
     ax = g.ax if hasattr(g, 'ax') else g.axes[0,0]
 
     # Compute the mean and median values
-    means = df.groupby([col1, col2])['query_response'].mean().reset_index()
-    medians = df.groupby([col1, col2])['query_response'].median().reset_index()
+    means = df.groupby([col1, col2])[val_col].mean().reset_index()
+    medians = df.groupby([col1, col2])[val_col].median().reset_index()
 
     # Map categories to positions
     x_pos = np.arange(len(col1_order))
@@ -134,7 +140,7 @@ def multi_var_catplot(df, col1, col2, title):
     # Scatter plot for means and medians
     ax.scatter(
         means['x'],
-        means['query_response'],
+        means[val_col],
         color='#39ff14',
         s=25,
         zorder=10,
