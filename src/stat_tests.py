@@ -333,15 +333,31 @@ def detailed_dunns_test(df, val_col=None, group_col=None, p_adjust='bonferroni',
             'reject_p05': reject_p05,
             'reject_p0005': reject_p00005
         })
-
-    # Function to color cells
-    def highlight_reject(val):
-        if val is True:
-            return 'background-color: lightgreen;'
-        elif val is False:
-            return 'background-color: lightcoral;'
-        return ''
     
     results = pd.DataFrame(results)
     results = results.style.applymap(highlight_reject, subset=['reject_p05', 'reject_p0005'])
     return results
+
+def detailed_dunns_test_bivariate(df, val_col, var1, var2, total_comparisons=1):
+    result_df = []
+    for i in df[var1].unique():
+        var1_df = df[df[var1] == i]
+        curr_df = detailed_dunns_test(var1_df, val_col, var2, total_comparisons=total_comparisons).data
+        curr_df[var1] = i
+        curr_df = curr_df.groupby([var1, f"{var2}1", f"{var2}2"]).mean()
+        result_df.append(curr_df)
+    final_dunns_results = pd.concat(result_df)
+    final_dunns_results['reject_p05'] = final_dunns_results['reject_p05'].astype(bool)
+    final_dunns_results['reject_p0005'] = final_dunns_results['reject_p0005'].astype(bool)
+    final_dunns_results = final_dunns_results.style.applymap(highlight_reject, subset=['reject_p05', 'reject_p0005'])
+    
+    return final_dunns_results
+
+
+# Function to color cells
+def highlight_reject(val):
+    if val is True:
+        return 'background-color: lightgreen;'
+    elif val is False:
+        return 'background-color: lightcoral;'
+    return ''
