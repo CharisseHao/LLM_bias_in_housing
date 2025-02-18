@@ -70,12 +70,13 @@ Ensure that you have `pip` installed before proceeding with this option.
             bash step0_run_first.sh
             ```
             This downloads the required packages.
-        5. When the process completes, run:
+        5. Open ```step1_prompt_bulk_generator.ipynb``` jupyter notebook and run all cellsto ensure the prompts look correct.
+        7. When the process completes, run:
             ```
             bash step2_0_pull_models.sh
             ```
             This downloads the selected models.
-        6. Once some models have been downloaded, open a new terminal and run:
+        8. Once some models have been downloaded, open a new terminal and run:
             ```
             bash step2_1_run_vllm.sh
             ```
