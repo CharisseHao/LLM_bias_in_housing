@@ -1,0 +1,39 @@
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_http.py", line 406, in hf_raise_for_status
+    response.raise_for_status()
+  File "/usr/local/lib/python3.10/dist-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: https://huggingface.co/api/models/gpt-4o-2024-08-06/revision/main
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/huggingface-cli", line 8, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/commands/huggingface_cli.py", line 57, in main
+    service.run()
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/commands/download.py", line 153, in run
+    print(self._download())  # Print path to downloaded files
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/commands/download.py", line 187, in _download
+    return snapshot_download(
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/_snapshot_download.py", line 232, in snapshot_download
+    raise api_call_error
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/_snapshot_download.py", line 155, in snapshot_download
+    repo_info = api.repo_info(repo_id=repo_id, repo_type=repo_type, revision=revision, token=token)
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/hf_api.py", line 2704, in repo_info
+    return method(
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/hf_api.py", line 2489, in model_info
+    hf_raise_for_status(r)
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_http.py", line 454, in hf_raise_for_status
+    raise _format(RepositoryNotFoundError, message, response) from e
+huggingface_hub.errors.RepositoryNotFoundError: 404 Client Error. (Request ID: Root=1-67b5199f-2f16017d39aa3b1848661668;ffb97094-d656-4a71-a13f-6d018e004913)
+
+Repository Not Found for url: https://huggingface.co/api/models/gpt-4o-2024-08-06/revision/main.
+Please make sure you specified the correct `repo_id` and `repo_type`.
+If you are trying to access a private or gated repo, make sure you are authenticated.

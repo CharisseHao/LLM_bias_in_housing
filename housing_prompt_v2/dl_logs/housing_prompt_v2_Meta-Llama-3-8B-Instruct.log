@@ -1,0 +1,10 @@
+Fetching 4 files:   0%|                                                                              | 0/4 [00:00<?, ?it/s]Downloading 'model-00001-of-00004.safetensors' to '/workspace/.hfhome/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c.incomplete'
+Downloading 'model-00003-of-00004.safetensors' to '/workspace/.hfhome/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921.incomplete'
+Downloading 'model-00002-of-00004.safetensors' to '/workspace/.hfhome/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c.incomplete'
+Downloading 'model-00004-of-00004.safetensors' to '/workspace/.hfhome/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46.incomplete'
+Download complete. Moving file to /workspace/.hfhome/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46
+Download complete. Moving file to /workspace/.hfhome/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921
+Download complete. Moving file to /workspace/.hfhome/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c
+Fetching 4 files:  25%|█████████████████▎                                                   | 1/4 [02:00<06:01, 120.54s/it]Download complete. Moving file to /workspace/.hfhome/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/blobs/8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c
+Fetching 4 files:  50%|███████████████████████████████████                                   | 2/4 [02:01<01:40, 50.07s/it]Fetching 4 files: 100%|██████████████████████████████████████████████████████████████████████| 4/4 [02:01<00:00, 30.32s/it]
+/workspace/.hfhome/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/5f0b02c75b57c5855da9ae460ce51323ea669d8a
