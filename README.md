@@ -33,24 +33,24 @@ Ensure that you have `pip` installed before proceeding with this option.
     ```
 
 ## Descriptions and Instructions:
-1. `step1_prompt_bulk_generator.ipynb`
-    - Inputs `input_data\audit_names.xlsx` and generates prompts in a `.jsonl` format
-        - The files are large, so they are stored as `.zip` files in GitHub. To replicate this process, unzip these files and submit only the raw `.jsonl` file.
-2. Prompt Submission Instructions:
+1. Prompt Submission Instructions:
     - For OpenAI Models (via Terminal):
-        1. Set your API key by replacing `YOUR_SECRET_KEY` with your actual key:
+        1. Open `step1_prompt_bulk_generator.ipynb` and run all cells to ensure the batch requests are up to date.
+            - Inputs `input_data\audit_names.xlsx` and generates prompts in a `.jsonl` format
+                - The files are large, so they are stored as `.zip` files in GitHub. To replicate this process, unzip these files and submit only the raw `.jsonl` file.
+        2. Set your API key by replacing `YOUR_SECRET_KEY` with your actual key:
             ```
             batchwizard configure --set-key YOUR_SECRET_KEY
             ```
-        2. Navigate to the directory containing the prompt files:
+        3. Navigate to the directory containing the prompt files:
             ```
             cd input_data/batch_requests
             ```
-        3. Submit a prompt file, replacing `FILE_NAME` with the actual file name:
+        4. Submit a prompt file, replacing `FILE_NAME` with the actual file name:
             ```
             batchwizard process FILE_NAME.jsonl
             ```
-        4. Download the results:
+        5. Download the results:
             - Once the request is processed, it will return a `.jsonl` result file. To download it, replace `JOB_ID` with the actual Job ID:
                 ```
                 batchwizard download JOB_ID
@@ -70,14 +70,21 @@ Ensure that you have `pip` installed before proceeding with this option.
             bash step0_run_first.sh
             ```
             This downloads the required packages.
-        5. Open ```step1_prompt_bulk_generator.ipynb``` jupyter notebook and run all cellsto ensure the prompts look correct.
-        7. When the process completes, run:
+        5. Open `step1_prompt_bulk_generator.ipynb` and run all cells to ensure the batch requests are up to date.
+            - Inputs `input_data\audit_names.xlsx` and generates prompts in a `.jsonl` format
+                - The files are large, so they are stored as `.zip` files in GitHub. To replicate this process, unzip these files and submit only the raw `.jsonl` file.
+        6. When the process completes, run:
             ```
             bash step2_0_pull_models.sh
             ```
             This downloads the selected models.
-        8. Once some models have been downloaded, open a new terminal and run:
+        7. Once some models have been downloaded, open a new terminal and run:
             ```
             bash step2_1_run_vllm.sh
             ```
-            This submits prompts to the models, and the results are downloaded to the `input_data\batch_results` folder.
+            This submits prompts to the models, and the results are downloaded to the `input_data\batch_results` folder. As the result files are large, compress them before trying to push to Github.
+2.  `step3_mergeall_outputs.ipynb`
+3. Data Analysis:
+    - `step4_0_performance_refusals.ipynb`
+    - `step4_1_data_visualizations.ipynb`
+    - `step4_2_statistical_tests.ipynb`
