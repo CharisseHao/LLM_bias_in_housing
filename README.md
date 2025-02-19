@@ -83,8 +83,8 @@ Ensure that you have `pip` installed before proceeding with this option.
             bash step2_1_run_vllm.sh
             ```
             This submits prompts to the models, and the results are downloaded to the `input_data\batch_results` folder. As the result files are large, compress them before trying to push to Github.
-2.  `step3_mergeall_outputs.ipynb`
+2.  `step3_mergeall_outputs.ipynb` merges all results from the `input_data\batch_results` folder into one `.csv` file for subsequent data analysis steps. It also parses the LLM responses for the numerical score, storing this data in a new column.
 3. Data Analysis:
-    - `step4_0_performance_refusals.ipynb`
-    - `step4_1_data_visualizations.ipynb`
-    - `step4_2_statistical_tests.ipynb`
+    - `step4_0_performance_refusals.ipynb`: explores responses labeled as "refused" 
+    - `step4_1_data_visualizations.ipynb`: contains EDA and plots responses in catplots
+    - `step4_2_statistical_tests.ipynb`: checks assumptions for parametric tests and applies appropriate statistical tests
