@@ -38,12 +38,13 @@ def assumptions_and_tests(df, val_col, models, variables):
         Kruskal-Wallis tests, and Dunn's tests (if applicable).
 
     """
-    for m in models:
-        print(f"\033[1mmodel: {m}\033[0m")
-        model_df = df[df['model'].str.contains(m)]
-
-        for v in variables:
-            print(f"\033[1mvariable: {v}\033[0m")
+    for v in variables:
+        print(f"\033[1mvariable: {v}\033[0m")
+        
+        for m in models:
+            print(f"\033[1mmodel: {m}\033[0m")
+            model_df = df[df['model'].str.contains(m)]
+            
             normality_check = check_normality_for_groups(model_df, val_col, model_df[v])
             variance_check = check_variance_homogeneity(model_df, val_col, model_df[v])
             if (not normality_check) or (not variance_check):
