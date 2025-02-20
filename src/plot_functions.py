@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 
-def single_var_catplot(df, val_col, col_name, title):
+def single_var_catplot(df, val_col, col_name, title, save_plt = False):
     """
     Creates a boxenplot for a single categorical variable with a custom legend.
 
@@ -65,12 +65,18 @@ def single_var_catplot(df, val_col, col_name, title):
                    markersize=8, label='Mean')
     ]
     ax.legend(handles=custom_legend, loc=(1.01,.5), framealpha=0)
-    
+
     plt.title(title)
+    
+    if save_plt:
+        plt_path = f"plots/{title.replace(' ', '_')}_{col_name}.png"
+        plt.savefig(plt_path, dpi=300, bbox_inches='tight')
+        print(f"plot saved successfully as '{plt_path}'")
+    
     plt.show()
 
 
-def multi_var_catplot(df, val_col, col1, col2, title):
+def multi_var_catplot(df, val_col, col1, col2, title, save_plt = False):
     """
     Creates a boxenplot for two categorical variables with mean and median 
     markers and a custom legend.
@@ -148,12 +154,18 @@ def multi_var_catplot(df, val_col, col1, col2, title):
     )
 
     # Add a second legend for the mean and median
-    custom_legend = [
-        plt.Line2D([0], [0], color="#ff1439", linewidth=2, label="Median"),
-        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='#39ff14', 
-                   markersize=8, label='Mean')
-    ]
-    ax.legend(handles=custom_legend, loc=(1.01,.05), framealpha=0)
+    # custom_legend = [
+    #     plt.Line2D([0], [0], color="#ff1439", linewidth=2, label="Median"),
+    #     plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='#39ff14', 
+    #                markersize=8, label='Mean')
+    # ]
+    # ax.legend(handles=custom_legend, loc=(1.01,.05), framealpha=0)
 
     plt.title(title)
+
+    if save_plt:
+        plt_path = f"plots/{title.lower().replace(' ', '_')}_{col1}_{col2}.png"
+        plt.savefig(plt_path, dpi=300, bbox_inches='tight')
+        print(f"plot saved successfully as '{plt_path}'")
+        
     plt.show()
