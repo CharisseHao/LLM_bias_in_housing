@@ -22,7 +22,7 @@ Ensure that you have Conda installed before proceeding with this option.
     ```
 2. Activate the environment:
     ```
-    conda activate retail-hiring-bias
+    conda activate llm-housing-bias
     ```
 
 ### Option 2: Use `pip` and `requirements.txt` 
