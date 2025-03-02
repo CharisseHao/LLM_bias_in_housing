@@ -1,5 +1,5 @@
 Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_http.py", line 406, in hf_raise_for_status
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_http.py", line 409, in hf_raise_for_status
     response.raise_for_status()
   File "/usr/local/lib/python3.10/dist-packages/requests/models.py", line 1021, in raise_for_status
     raise HTTPError(http_error_msg, response=self)
@@ -24,15 +24,15 @@ Traceback (most recent call last):
     repo_info = api.repo_info(repo_id=repo_id, repo_type=repo_type, revision=revision, token=token)
   File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
     return fn(*args, **kwargs)
-  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/hf_api.py", line 2704, in repo_info
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/hf_api.py", line 2734, in repo_info
     return method(
   File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
     return fn(*args, **kwargs)
-  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/hf_api.py", line 2489, in model_info
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/hf_api.py", line 2519, in model_info
     hf_raise_for_status(r)
-  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_http.py", line 454, in hf_raise_for_status
+  File "/usr/local/lib/python3.10/dist-packages/huggingface_hub/utils/_http.py", line 458, in hf_raise_for_status
     raise _format(RepositoryNotFoundError, message, response) from e
-huggingface_hub.errors.RepositoryNotFoundError: 404 Client Error. (Request ID: Root=1-67b5199f-187b4cdb62e6fe3c24863c6f;41e5484e-4713-42f3-8be2-d6e5ea6c9f20)
+huggingface_hub.errors.RepositoryNotFoundError: 404 Client Error. (Request ID: Root=1-67c39c6c-0f1838f968a0ad7908b9c689;bc902fb9-f1b0-4f2c-b0da-db0eaac3b0ea)
 
 Repository Not Found for url: https://huggingface.co/api/models/gpt-4o-mini-2024-07-18/revision/main.
 Please make sure you specified the correct `repo_id` and `repo_type`.

@@ -1,6 +1,6 @@
-Fetching 2 files:   0%|                                                                              | 0/2 [00:00<?, ?it/s]Downloading 'model-00002-of-00002.safetensors' to '/workspace/.hfhome/hub/models--google--gemma-2-2b-it/blobs/6d6d9ce84db398fb6e0191f91542e5da0a73da2cb695e172a24edc2146dc8d20.incomplete'
+Fetching 2 files:   0%|                                                              | 0/2 [00:00<?, ?it/s]Downloading 'model-00002-of-00002.safetensors' to '/workspace/.hfhome/hub/models--google--gemma-2-2b-it/blobs/6d6d9ce84db398fb6e0191f91542e5da0a73da2cb695e172a24edc2146dc8d20.incomplete'
 Downloading 'model-00001-of-00002.safetensors' to '/workspace/.hfhome/hub/models--google--gemma-2-2b-it/blobs/532d792c9178805064170a3ec485b7dedbfccc6fd297b92c31a6091b6c7e41bf.incomplete'
 Download complete. Moving file to /workspace/.hfhome/hub/models--google--gemma-2-2b-it/blobs/6d6d9ce84db398fb6e0191f91542e5da0a73da2cb695e172a24edc2146dc8d20
 Download complete. Moving file to /workspace/.hfhome/hub/models--google--gemma-2-2b-it/blobs/532d792c9178805064170a3ec485b7dedbfccc6fd297b92c31a6091b6c7e41bf
-Fetching 2 files:  50%|██████████████████████████████████▌                                  | 1/2 [01:59<01:59, 119.10s/it]Fetching 2 files: 100%|██████████████████████████████████████████████████████████████████████| 2/2 [01:59<00:00, 59.55s/it]
+Fetching 2 files:  50%|███████████████████████████                           | 1/2 [00:24<00:24, 24.11s/it]Fetching 2 files: 100%|██████████████████████████████████████████████████████| 2/2 [00:24<00:00, 12.05s/it]
 /workspace/.hfhome/hub/models--google--gemma-2-2b-it/snapshots/299a8560bedf22ed1c72a8a11e7dce4a7f9f51f8

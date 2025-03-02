@@ -1,6 +1,6 @@
-Fetching 2 files:   0%|                                                                              | 0/2 [00:00<?, ?it/s]Downloading 'model-00001-of-00002.safetensors' to '/workspace/.hfhome/hub/models--meta-llama--Llama-3.2-3B-Instruct/blobs/13cbd6d16e927a0c5bad54102514e6e18b4a47b3a6eb911e39d678d328d19f55.incomplete'
-Downloading 'model-00002-of-00002.safetensors' to '/workspace/.hfhome/hub/models--meta-llama--Llama-3.2-3B-Instruct/blobs/7b770216613ac5c34d7c54bdff1fa616bc4e338a9d0b20af6303e48c295ee23c.incomplete'
+Fetching 2 files:   0%|                                                              | 0/2 [00:00<?, ?it/s]Downloading 'model-00002-of-00002.safetensors' to '/workspace/.hfhome/hub/models--meta-llama--Llama-3.2-3B-Instruct/blobs/7b770216613ac5c34d7c54bdff1fa616bc4e338a9d0b20af6303e48c295ee23c.incomplete'
+Downloading 'model-00001-of-00002.safetensors' to '/workspace/.hfhome/hub/models--meta-llama--Llama-3.2-3B-Instruct/blobs/13cbd6d16e927a0c5bad54102514e6e18b4a47b3a6eb911e39d678d328d19f55.incomplete'
 Download complete. Moving file to /workspace/.hfhome/hub/models--meta-llama--Llama-3.2-3B-Instruct/blobs/7b770216613ac5c34d7c54bdff1fa616bc4e338a9d0b20af6303e48c295ee23c
 Download complete. Moving file to /workspace/.hfhome/hub/models--meta-llama--Llama-3.2-3B-Instruct/blobs/13cbd6d16e927a0c5bad54102514e6e18b4a47b3a6eb911e39d678d328d19f55
-Fetching 2 files:  50%|██████████████████████████████████▌                                  | 1/2 [01:58<01:58, 118.16s/it]Fetching 2 files: 100%|██████████████████████████████████████████████████████████████████████| 2/2 [01:58<00:00, 59.08s/it]
+Fetching 2 files:  50%|███████████████████████████                           | 1/2 [00:24<00:24, 24.26s/it]Fetching 2 files: 100%|██████████████████████████████████████████████████████| 2/2 [00:24<00:00, 12.13s/it]
 /workspace/.hfhome/hub/models--meta-llama--Llama-3.2-3B-Instruct/snapshots/0cb88a4f764b7a12671c53f0838cd831a0843b95
