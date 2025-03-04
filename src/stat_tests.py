@@ -5,7 +5,7 @@ from scipy.stats import kruskal, norm
 import scikit_posthocs as sp
 from itertools import combinations
 
-def assumptions_and_tests(df, val_col, models, variables):
+def assumptions_and_tests(df, val_col, models, variables, total_comparisons=1, print_results=False):
     """
     Checks assumptions for parametric tests and performs Kruskal-Wallis Test for 
     each model and variable if assumptions aren't met.
@@ -54,7 +54,7 @@ def assumptions_and_tests(df, val_col, models, variables):
                 i_color = "  \033[38;2;30;200;10m" if (kw_test['Interpretation'] != 'Significant difference between groups') else "  \033[38;5;160m"
                 print(i_color + kw_test['Interpretation'] + "\033[0m")
                 if kw_test['Interpretation'] == 'Significant difference between groups':
-                    display(detailed_dunns_test(model_df, val_col, v))
+                    display(detailed_dunns_test(model_df, val_col, v, total_comparisons=total_comparisons, print_results=print_results)[0])
             print('\n')
         print('---\n')
 
@@ -204,7 +204,7 @@ def dunns_test(df, val_col, group_col):
     return dunn_results
 
 
-def detailed_dunns_test(df, val_col=None, group_col=None, p_adjust='bonferroni', sort=True, total_comparisons=1):
+def detailed_dunns_test(df, val_col=None, group_col=None, p_adjust='bonferroni', sort=True, total_comparisons=1, print_results=False):
     """
     Perform Dunn's test for pairwise comparisons between groups with detailed 
     statistics, including mean and median differences, Z-scores, p-values, and 
@@ -336,14 +336,28 @@ def detailed_dunns_test(df, val_col=None, group_col=None, p_adjust='bonferroni',
         })
     
     results = pd.DataFrame(results)
-    results = results.style.applymap(highlight_reject, subset=['reject_p05', 'reject_p0005'])
-    return results
 
-def detailed_dunns_test_bivariate(df, val_col, var1, var2, total_comparisons=1):
+    num_rejected, total_tests = sum(results['reject_p0005']), len(results)
+    if print_results:
+        max_mean_diff = results[results['mean_diff'].apply(abs) == max(results['mean_diff'].apply(abs))]
+        display(max_mean_diff)
+        print(f"total rejected: {num_rejected}")
+        print(f"total tests: {total_tests}")
+        print(f"{round((num_rejected/total_tests)*100, 2)}% tests rejected")
+    
+    
+    results = results.style.applymap(highlight_reject, subset=['reject_p05', 'reject_p0005'])
+    return results, num_rejected, total_tests
+
+def detailed_dunns_test_bivariate(df, val_col, var1, var2, total_comparisons=1, print_results=False):
     result_df = []
+    total_failed, total_tests = 0, 0
     for i in df[var1].unique():
         var1_df = df[df[var1] == i]
-        curr_df = detailed_dunns_test(var1_df, val_col, var2, total_comparisons=total_comparisons).data
+        curr_df, failed_tests, num_tests = detailed_dunns_test(var1_df, val_col, var2, total_comparisons=total_comparisons)
+        total_failed += failed_tests
+        total_tests += num_tests
+        curr_df = curr_df.data
         curr_df[var1] = i
         curr_df = curr_df.groupby([var1, f"{var2}1", f"{var2}2"]).mean()
         result_df.append(curr_df)
@@ -351,7 +365,11 @@ def detailed_dunns_test_bivariate(df, val_col, var1, var2, total_comparisons=1):
     final_dunns_results['reject_p05'] = final_dunns_results['reject_p05'].astype(bool)
     final_dunns_results['reject_p0005'] = final_dunns_results['reject_p0005'].astype(bool)
     final_dunns_results = final_dunns_results.style.applymap(highlight_reject, subset=['reject_p05', 'reject_p0005'])
-    
+
+    if print_results:
+        print(f"total rejected: {total_failed}")
+        print(f"total tests: {total_tests}")
+        print(f"{round((total_failed/total_tests)*100, 2)}% tests rejected")
     return final_dunns_results
 
 
