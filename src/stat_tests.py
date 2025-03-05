@@ -321,7 +321,7 @@ def detailed_dunns_test(df, val_col=None, group_col=None, p_adjust='bonferroni',
 
         # Apply Bonferroni correction for multiple comparisons
         reject_p05 = p_value < (0.05 / total_comparisons)
-        reject_p00005 = p_value < ((0.05/1000) / total_comparisons) # Bonferroni correction (0.5/# of p-values)
+        reject_p00005 = p_value < (0.05 / total_comparisons) # Bonferroni correction (0.05/# of p-values)
 
         results.append({
             group_col + '1': i,
