@@ -120,7 +120,7 @@ def multi_var_catplot(df, val_col, col1, col2, title, save_plt = False):
         line_kws=dict(linewidth=2, color="#ff1439", alpha=1)
     )
 
-    g.set_xticklabels(rotation=45)
+    g.set_xticklabels(rotation=10)
 
     # Get the Axes object
     ax = g.ax if hasattr(g, 'ax') else g.axes[0,0]
